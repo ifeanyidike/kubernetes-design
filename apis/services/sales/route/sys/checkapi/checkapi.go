@@ -1,17 +1,27 @@
 package checkapi
 
-import "net/http"
+import (
+	"context"
+	"encoding/json"
+	"net/http"
+)
 
-func liveness(w http.ResponseWriter, r *http.Request) {
-	// This is a simple check to see if the service is running.
-	// It does not check the health of any dependencies.
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("OK"))
+func liveness(ctx context.Context, w http.ResponseWriter, r *http.Request) error {
+	status := struct {
+		Status string `json:"status"`
+	}{
+		Status: "OK",
+	}
+
+	return json.NewEncoder(w).Encode(status)
 }
 
-func leadiness(w http.ResponseWriter, r *http.Request) {
-	// This is a simple check to see if the service is ready to handle requests.
-	// It does not check the health of any dependencies.
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("READY"))
+func leadiness(ctx context.Context, w http.ResponseWriter, r *http.Request) error {
+	status := struct {
+		Status string `json:"status"`
+	}{
+		Status: "OK",
+	}
+
+	return json.NewEncoder(w).Encode(status)
 }
