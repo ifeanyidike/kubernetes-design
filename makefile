@@ -2,6 +2,12 @@
 SHELL_PATH = /bin/ash
 SHELL = $(if $(wildcard $(SHELL_PATH)),/bin/ash,/bin/bash)
 
+curl-live:
+	curl -il -X GET http://localhost:3000/liveness | grep -q "200 OK" && echo "Liveness check passed" || echo "Liveness check failed"
+
+curl-ready:
+	curl -il -X GET http://localhost:3000/readiness | grep -q "200 OK" && echo "Readiness check passed" || echo "Readiness check failed"	
+
 
 # ==============================================================================
 # Define dependencies
